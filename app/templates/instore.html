@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/semantic.css' %}">
+<body style="background-color: cornflowerblue">
+    <meta charset="UTF-8">
+    <title>入库</title>
+    <div class="ui center segment"
+                style=" min-height: 600px;
+                opacity: 0.8;
+                background-color: ghostwhite;
+                width:500px !important;
+                border:rgba(255, 0, 0, 0);
+                position: absolute;
+                left: 50%;
+                top:50%;
+                transform: translate(-50%,-50%);">
+       <div>
+           <div class="ui header">
+               <h2 class="ui red">入库</h2>
+               <form action="/instore/" method="post" style="position: absolute;top: 10%;left: 20%;">
+                   {% csrf_token %}
+                   <div class="field">
+                       <div class="ui left icon input" style="width:120%;height:10%;">
+                            {{ form.as_p }}
+                       </div>
+                   </div>
+                   <button class="ui center blue submit button" style="position: absolute;top: 105%;left: 25%;">确定</button>
+                   <a href="../infomanage/" class="ui center blue button" style="position: absolute;top: 105%;left: 45%;">返回</a>
+               </form>
+               {% if messages %}
+                   <ul class=" ui black header messages" style="background-color: cornflowerblue; position: absolute;top: 100%;left: 35%;">
+                    {% for message in messages %}
+                        <p {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</p>
+                    {% endfor %}
+                    </ul>
+               {% endif %}
+           </div>
+       </div>
+   </div>
+
+</body>
+</html>
