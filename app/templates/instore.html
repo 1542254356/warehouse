@@ -2,6 +2,28 @@
 <html lang="en">
 {% load static %}
 <link rel="stylesheet" href="{% static 'css/semantic.css' %}">
+    <link rel="stylesheet" href="/static/layui/css/layui.css">
+    <script src="/static/layui/layui.all.js"></script>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+
+<script>
+    alt = false
+</script>
+
+{% if messages %}
+
+    <script>
+        $(function () {
+            {% for msg in messages %}
+                alert('{{ msg.message }}');
+            {% endfor %}
+
+        })
+        // 标记是否有错误信息
+    alt = true
+
+    </script>
+{% endif %}
 <body style="background-color: cornflowerblue">
     <meta charset="UTF-8">
     <title>入库</title>

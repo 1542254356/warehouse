@@ -5,15 +5,51 @@
     <meta charset="UTF-8">
     <title>欢迎来到小型自选商场管理系统</title>
     <link rel="stylesheet" href="{% static 'css/semantic.css' %}" media="screen" title="no title" charset="utf-8">
+    <link rel="stylesheet" href="/static/layui/css/layui.css">
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <script src="/static/layui/layui.all.js"></script>
+
 </head>
+
+
+{#<div id="div_message" >#}
+{#    {% if messages %}#}
+{#       <ul class=" ui red header messages" style="background-color: ghostwhite; position: absolute;top: 65%;left: 42%;">#}
+{#       <ul>#}
+{#           {% for message in messages %}#}
+{#           <P {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</P>#}
+{#           {% endfor %}#}
+{#       </ul>#}
+{#    {% endif %}#}
+{#</div>#}
 <body>
-    {% if messages %}
-       <ul class=" ui red header messages" style="background-color: ghostwhite; position: absolute;top: 65%;left: 42%;">
-           {% for message in messages %}
-           <P {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</P>
-           {% endfor %}
-       </ul>
-    {% endif %}
+{% if messages %}
+
+    <script>
+        $(function () {
+            {% for msg in messages %}
+                alert('{{ msg.message }}');
+            {% endfor %}
+
+        })
+
+    </script>
+{% endif %}
+
+<script type="text/javascript">
+    ;!function () {
+        var layer = layui.layer
+            , form = layui.form
+            , element = layui.element;
+
+    }();
+    //注意：导航 依赖 element 模块，否则无法进行功能性操作.
+
+
+
+</script>
+
+
    <div class="ui center segment"
                 style=" min-height: 300px;
                 opacity: 0.8;

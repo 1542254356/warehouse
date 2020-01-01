@@ -40,6 +40,8 @@ def index_login(request):
             else:
                 messages.add_message(request, messages.ERROR, "账号或密码错误，请重新输入！")
                 return redirect (to='login')
+        else:
+            return redirect(to='login')
     else:
         form = UserForm()
         return render(request, 'login.html', {'form' : form})
@@ -71,7 +73,7 @@ def register(request):
                     user = UserInfo()
                     user.account = acc
                     user.sex = form.cleaned_data['sex']
-                    user.name = form.cleaned_data['name']
+                    user.name = form.cleaned_data['username']
                     user.job = form.cleaned_data['job']
                     user.job_num = form.cleaned_data['job_num']
                     user.save()
@@ -98,6 +100,15 @@ def infochange(request):
                 password_again = form.cleaned_data['password_again']
                 if password == password_again:
                     user.set_password(password)
+
+                    #
+                    # acc = User.objects.get(username=user.userinfo.name)
+                    # user = UserInfo()
+                    # user.account = acc
+                    # user.sex = form.cleaned_data['sex']
+                    # user.job = form.cleaned_data['job']
+
+
                     user.userinfo.sex = form.cleaned_data['sex']
                     user.save()
                     messages.add_message (request, messages.INFO, "信息更改成功，请重新登录！")
@@ -119,8 +130,10 @@ def instore(request):
     user = request.user
     if not user.is_authenticated:
         return redirect(to='login')
-
     if request.method == 'POST':
+        if (request.user.userinfo.job != '仓库主管'):
+            messages.add_message(request, messages.ERROR, "你不是仓库主管 ，无权修改入库信息")
+            return redirect(to='instore')
         # print(request.POST)
         form = StoreIn(request.POST)
         if form.is_valid():
@@ -143,6 +156,10 @@ def instore(request):
                 # print(goods.goods_amount, op_amount)
                 store, tmp = Storage.objects.get_or_create(goods_name=goods)
                 store.storage_amount = store.storage_amount + op_amount
+                if (store.storage_amount > 1000):
+                    raise Exception('库存大于1000,装不下啦！入库失败！')
+                if (op_price > 10000):
+                    raise Exception('价格太高了,是不是写错了?')
                 goods.goods_price = op_price
                 # goods.goods_amount = goods.goods_amount + op_amount
                 WaveHousing.objects.create(goods_name=goods, sup_name=sup, res_person=user.userinfo,
@@ -155,9 +172,9 @@ def instore(request):
                 print('--try after wh create--')
                 messages.add_message(request, messages.SUCCESS, '入库成功！')
 
-            except:
+            except Exception as err:
                 print('--入库哪里有错--')
-                messages.add_message(request, messages.ERROR, '入库出错，请重新入库')
+                messages.add_message(request, messages.ERROR, err)
 
         return redirect(to= 'instore')
 
@@ -170,7 +187,12 @@ def outstore(request):
     if not user.is_authenticated:
         return redirect(to='login')
 
+
+
     if request.method == 'POST':
+        if (request.user.userinfo.job != '仓库主管'):
+            messages.add_message(request, messages.ERROR, "你不是仓库主管 ，无权修改出库信息")
+            return redirect(to='outstore')
         # print(request.POST)
         form = StoreOut(request.POST)
         if form.is_valid():
@@ -193,6 +215,12 @@ def outstore(request):
                 print(store.storage_amount)
                 goods.goods_amount = goods.goods_amount + op_amount
                 goods.goods_sprice = op_price
+                if (store.storage_amount < 0):
+                    raise Exception("库存不足！出库失败！")
+                if (goods.goods_amount > 1000):
+                    raise Exception("正在销售商品超过1000了！出库失败！")
+                if (op_price > 10000):
+                    raise Exception('价格太高了,是不是写错了?')
                 goods.update_date = datetime.now()
                 StockOut.objects.create(goods_name=goods, sup_name=sup, res_person=user.userinfo,
                                         out_date=goods.update_date,
@@ -204,9 +232,9 @@ def outstore(request):
 
                 print('--出库 ok--')
                 messages.add_message(request, messages.SUCCESS, '出库成功！')
-            except:
+            except Exception as err:
                 print('--出库哪里有错--')
-                messages.add_message(request, messages.ERROR, '出库错误，请重新出库！')
+                messages.add_message(request, messages.ERROR, err)
 
         return redirect(to= 'outstore')
 
@@ -270,6 +298,9 @@ def infomanage(request):
             context['each_object'] = contacts
 
         elif query == 'storage':
+            if (request.user.userinfo.job == '用户'):
+                messages.add_message(request, messages.ERROR, "权限不足查看库存")
+                return redirect(to='infomanage')
             context['storage_inver'] = 'layui-this'
             context['name'] = query
             each_object = Storage.objects.all()
@@ -288,6 +319,9 @@ def infomanage(request):
 
         # 销售信息
         elif query == 'sellout':
+            if (request.user.userinfo.job == '用户'):
+                messages.add_message(request, messages.ERROR, "权限不足查看销售")
+                return redirect(to='infomanage')
             context['sellout_inver'] = 'layui-this'
             context['name'] = query
             each_object = SellOut.objects.all()
@@ -313,6 +347,9 @@ def infomanage(request):
 
 
         elif query == 'stockout':
+            if (request.user.userinfo.job == '用户'):
+                messages.add_message(request, messages.ERROR, "权限不足出库记录")
+                return redirect(to='infomanage')
             context['stockout_inver'] = 'layui-this'
             context['name'] = query
             each_object = StockOut.objects.all()
@@ -329,6 +366,9 @@ def infomanage(request):
             context['each_object'] = contacts
 
         elif query == 'wavehousing':
+            if (request.user.userinfo.job == '用户'):
+                messages.add_message(request, messages.ERROR, "权限不足查看库存")
+                return redirect(to='infomanage')
             context['wavehouse_inver'] = 'layui-this'
             context['name'] = query
             each_object = WaveHousing.objects.all()
