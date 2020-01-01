@@ -237,7 +237,7 @@ def infomanage(request):
             query = 'goods'
 
         if query == 'supplier':
-            context['sup_inver'] = 'inverted'
+            context['sup_inver'] = 'layui-this'
             context['name'] = query
             each_object = Supplier.objects.all()
             if not each_object:
@@ -254,7 +254,7 @@ def infomanage(request):
             context['each_object'] = contacts
 
         elif query == 'goods':
-            context['goods_inver'] = 'inverted'
+            context['goods_inver'] = 'layui-this'
             context['name'] = 'goods'
             each_object = Goods.objects.all()
             if not each_object:
@@ -270,7 +270,7 @@ def infomanage(request):
             context['each_object'] = contacts
 
         elif query == 'storage':
-            context['storage_inver'] = 'inverted'
+            context['storage_inver'] = 'layui-this'
             context['name'] = query
             each_object = Storage.objects.all()
             if not each_object:
@@ -288,7 +288,7 @@ def infomanage(request):
 
         # 销售信息
         elif query == 'sellout':
-            context['sellout_inver'] = 'inverted'
+            context['sellout_inver'] = 'layui-this'
             context['name'] = query
             each_object = SellOut.objects.all()
             if not each_object:
@@ -313,7 +313,7 @@ def infomanage(request):
 
 
         elif query == 'stockout':
-            context['stockout_inver'] = 'inverted'
+            context['stockout_inver'] = 'layui-this'
             context['name'] = query
             each_object = StockOut.objects.all()
             if not each_object:
@@ -329,7 +329,7 @@ def infomanage(request):
             context['each_object'] = contacts
 
         elif query == 'wavehousing':
-            context['wavehouse_inver'] = 'inverted'
+            context['wavehouse_inver'] = 'layui-this'
             context['name'] = query
             each_object = WaveHousing.objects.all()
             if not each_object:
