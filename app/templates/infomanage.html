@@ -29,34 +29,49 @@
         <a href="?query=wavehousing">入库单查询</a>
     </li>
     <li class="layui-nav-item {{ store_inver }}">
-        <a href="/instore" methods="post">入库</a>
+        <a href="javascript:instore()" methods="post">入库</a>
     </li>
     <li class="layui-nav-item {{ store_inver }}">
-        <a href="/outstore" methods="post">出库</a>
+        <a href="javascript:outstore()" methods="post">出库</a>
     </li>
     <li class="layui-nav-item {{ sup_inver }}">
         <a href="?query=supplier">供应商查询</a>
+    <li class="layui-nav-item">
+        <a href="/logout/" >退出系统</a>
+    </li>
     </li>
 </ul>
 <script>
-    ;!function(){
-  var layer = layui.layer
-  ,form = layui.form
-      ,element = layui.element;
+    ;!function () {
+        var layer = layui.layer
+            , form = layui.form
+            , element = layui.element;
 
-  console.log(element.constructor())
+        console.log(element.constructor())
 
-        layer.open({
-  type: 2,
-            area: ['500px', '600px'],
-  content: ['/instore', 'no'] //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
-});
+
 
 
 
 
 }();
     //注意：导航 依赖 element 模块，否则无法进行功能性操作.
+
+    function instore() {
+        layer.open({
+            type: 2,
+            area: ['500px', '600px'],
+            content: ['/instore', 'no'] //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+        });
+    }
+
+    function outstore() {
+        layer.open({
+            type: 2,
+            area: ['500px', '600px'],
+            content: ['/outstore', 'no'] //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+        });
+    }
 
 
 </script>
