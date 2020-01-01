@@ -73,6 +73,14 @@
         });
     }
 
+    function infochange() {
+        layer.open({
+            type: 2,
+            area: ['500px', '600px'],
+            content: ['/infochange', 'no'] //这里content是一个URL，如果你不想让iframe出现滚动条，你还可以content: ['http://sentsin.com', 'no']
+        });
+    }
+
 
 </script>
 <div class="ui contain">
@@ -135,9 +143,11 @@
                 工号:&nbsp&nbsp&nbsp{{ request.user.userinfo.job_num }}
             </h3>
             <br>
-            <a href="/infochange/" class="ui center blue button">更改信息</a>
+            <a href="javascript:infochange()" class="ui center blue button">更改信息</a>
         </div>
     </div>
+
+
 
     <!--主要功能区-->
     <div class="ui blue segment"
