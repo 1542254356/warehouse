@@ -77,12 +77,13 @@
 
     $('#id_goodsID').bind('input propertychange', function () {
         id = $('#id_goodsID').val()
-        if (id < 0){
-            alert('id不能小于0')
+        if (id < 1){
+            alert('id不能小于1')
             $('#id_goodsID').val('')
             return
         }
-        good = goods[id]
+        {#good = goods[id - 1]#}
+        good = getByid(goods, 'goodsID', id)
         loadGoodInfo(good)
     });
 
@@ -92,8 +93,21 @@
         $('#id_op_price').val(good['goods_price'])
         sup_id = good['goods_sup']
         console.log(sup_id)
-        console.log(sups[sup_id])
-        $('#id_sup_name').val(sups[sup_id]['sup_name'])
+        //console.log(sups[sup_id - 1])
+        sup_name = getByid(sups, 'id', sup_id)
+        console.log(sup_name)
+        $('#id_sup_name').val(sup_name['sup_name'])
+    }
+
+    function getByid(list, tag, val) {
+        for (item of list) {
+            console.log(item, val,item[tag] )
+            if (item[tag] == val){
+                return item
+            }
+        }
+        console.log("没找到")
+
     }
 
 </script>

@@ -216,6 +216,7 @@ def instore(request):
                 messages.add_message(request, messages.SUCCESS, '入库成功！')
 
             except Exception as err:
+                print(err)
                 print('--入库哪里有错--')
                 messages.add_message(request, messages.ERROR, err)
 
