@@ -60,6 +60,7 @@ def index_logout(request):
 def register(request):
     user = request.user
     if user.is_authenticated:
+        logout(request)
         return redirect(to='infomanage')
     if request.method == 'POST':
         form = UserInfoForm(request.POST)
@@ -79,8 +80,14 @@ def register(request):
                     user.sex = form.cleaned_data['sex']
                     user.name = form.cleaned_data['username']
                     user.job = form.cleaned_data['job']
-                    user.job_num = form.cleaned_data['job_num']
+
+                    num = UserInfo.objects.order_by('job_num').reverse().all()[0].job_num
+                    user.job_num = num + 1
+
                     user.save()
+                    str = "注冊成功！"
+                    messages.add_message(request, messages.ERROR, str)
+
                 except:
                     print('error')
                     pass
@@ -153,7 +160,9 @@ def infochange(request):
                     # acc.sex = form.cleaned_data['sex']
                     # acc.job = form.cleaned_data['job']
                     # acc.save()
+
                     messages.add_message (request, messages.INFO, "信息更改成功，请重新登录！")
+                    logout(request)
                     return redirect(to='login')
                 else:
                     messages.add_message(request, messages.ERROR, "两次密码不一致！")
@@ -173,6 +182,9 @@ def instore(request):
     user = request.user
     if not user.is_authenticated:
         return redirect(to='login')
+    if (request.user.userinfo.job != '仓库主管'):
+        messages.add_message(request, messages.ERROR, "你不是仓库主管 ，无权修改入库信息")
+
     if request.method == 'POST':
         if (request.user.userinfo.job != '仓库主管'):
             messages.add_message(request, messages.ERROR, "你不是仓库主管 ，无权修改入库信息")
@@ -199,8 +211,8 @@ def instore(request):
                 # print(goods.goods_amount, op_amount)
                 store, tmp = Storage.objects.get_or_create(goods_name=goods)
                 store.storage_amount = store.storage_amount + op_amount
-                if (store.storage_amount > 1000):
-                    raise Exception('库存大于1000,装不下啦！入库失败！')
+                if (store.storage_amount > store.storage_max):
+                    raise Exception('超過最大庫存！装不下啦！入库失败！')
                 if (op_price > 10000):
                     raise Exception('价格太高了,是不是写错了?')
                 goods.goods_price = op_price
@@ -230,6 +242,8 @@ def outstore(request):
     user = request.user
     if not user.is_authenticated:
         return redirect(to='login')
+    if (request.user.userinfo.job != '仓库主管'):
+        messages.add_message(request, messages.ERROR, "你不是仓库主管 ，无权修改出库信息")
 
 
 
@@ -309,6 +323,7 @@ def infomanage(request):
             query = 'goods'
 
         if query == 'supplier':
+
             context['sup_inver'] = 'layui-this'
             context['name'] = query
             each_object = Supplier.objects.all()
@@ -391,6 +406,7 @@ def infomanage(request):
 
 
         elif query == 'stockout':
+
             if (request.user.userinfo.job == '用户'):
                 messages.add_message(request, messages.ERROR, "权限不足出库记录")
                 return redirect(to='infomanage')

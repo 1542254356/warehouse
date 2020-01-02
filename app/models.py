@@ -9,7 +9,7 @@ class UserInfo(models.Model):
     # related_name  会在request.user.中使用，也就是别名。
     account = models.OneToOneField(to= User, verbose_name='用户名:', null=True, related_name='userinfo', on_delete=models.CASCADE)
     name = models.CharField(verbose_name='姓名:', null=True, blank=False, max_length=10)
-    sex_choice = {('male', '男'), ('female', '女'), }
+    sex_choice = {('男', '男'), ('女', '女'), }
     job_choice = {(u'仓库主管','仓库主管'),(u'普通员工','普通员工'),(u'用户','用户')}
     sex = models.CharField(verbose_name='性别:', null=False, blank=False, max_length=10, choices= sex_choice, default='女')
     job = models.CharField(verbose_name='职位:', null=False, blank=False, max_length=10, choices= job_choice, default= u'普通员工')

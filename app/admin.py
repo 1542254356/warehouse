@@ -20,4 +20,5 @@ admin.site.register(StockOut)
 admin.site.register(Storage)
 admin.site.register(WaveHousing)
 admin.site.register(SellOut)
+admin.site.site_header = "小型自选商场管理系统"
 
