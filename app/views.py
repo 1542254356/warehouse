@@ -149,15 +149,10 @@ def infochange(request):
                     user.set_password(password)
 
                     #
-                    # acc = User.objects.get(username=user.userinfo.name)
-                    # user = UserInfo()
-                    # user.account = acc
-                    # user.sex = form.cleaned_data['sex']
-                    # user.job = form.cleaned_data['job']
-
-
-                    user.userinfo.sex = form.cleaned_data['sex']
-                    user.save()
+                    # acc = UserInfo.objects.get(name=user.userinfo.name)
+                    # acc.sex = form.cleaned_data['sex']
+                    # acc.job = form.cleaned_data['job']
+                    # acc.save()
                     messages.add_message (request, messages.INFO, "信息更改成功，请重新登录！")
                     return redirect(to='login')
                 else:

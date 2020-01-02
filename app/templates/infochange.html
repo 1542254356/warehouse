@@ -24,7 +24,7 @@
 
     </script>
 {% endif %}
-<body style="background-color: cornflowerblue;">
+<body class="layui-bg-gray">
     {% if messages %}
        <ul class=" ui red header messages" style="background-color: cornflowerblue; position: absolute;top: 60%;left: 42%;">
            {% for message in messages %}
@@ -44,7 +44,7 @@
                 transform: translate(-50%,-50%);">
        <div class="ui center content login">
            <div class="ui header">
-               <h2 class="ui red">个人信息更改</h2>
+               <h2 class="ui red">密码更改</h2>
                <form action="/infochange/" method="post" style="position: absolute;top: 10%;left: 5%;">
                    {% csrf_token %}
                    <div class="field">
@@ -52,8 +52,8 @@
                             {{ form.as_p }}
                        </div>
                    </div>
-                   <button class="ui center red submit button" style="position: absolute;top: 100%;left: 30%;">确认更改</button>
-                   <a href="../infomanage/" class="ui center red button" style="position: absolute;top: 120%;left: 30%;">返回</a>
+                   <button class="ui center red submit button" style="position: absolute;top: 120%;left: 10%;">确认更改</button>
+                   <a href="../infomanage/" class="ui center red button" style="position: absolute;top: 120%;left: 50%;">返回</a>
                </form>
            </div>
        </div>

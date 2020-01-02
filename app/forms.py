@@ -18,10 +18,10 @@ class UserInfoForm(forms.Form):
 class InfoChange(forms.Form):
     password = forms.CharField(label='请输入新密码:',widget= forms.PasswordInput)
     password_again = forms.CharField(label='再次输入新密码:',widget= forms.PasswordInput)
-    sex_choice = {('male', '男'), ('female', '女'), }
-    job_choice = {('普通员工', '普通员工'), ('仓库主管','仓库主管'),('用户','用户')}
-    sex = forms.ChoiceField(label='性别:', choices= sex_choice)
-    job = forms.ChoiceField(label='职位:', choices= job_choice)
+    # sex_choice = {('male', '男'), ('female', '女'), }
+    # job_choice = {('普通员工', '普通员工'), ('仓库主管','仓库主管'),('用户','用户')}
+    # sex = forms.ChoiceField(label='性别:', choices= sex_choice)
+    # job = forms.ChoiceField(label='职位:', choices= job_choice)
 
 class StoreIn(forms.Form):
     goods_name = forms.CharField(label='货物名称:')
