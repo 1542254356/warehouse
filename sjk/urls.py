@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from app.views import index_login, register, infomanage, index, infochange, index_logout, outstore, instore
+from app.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls, name= 'admin'),
@@ -27,4 +27,6 @@ urlpatterns = [
     path('infochange/', infochange, name= 'infochange'),
     path('instore/', instore, name= 'instore'),
     path('outstore/', outstore, name= 'outstore'),
+    path('getGoodInfo/',getGoodInfo,name='getGoodInfo'),
+    path('getSupInfo/',getSupInfo,name='getSupInfo'),
 ]

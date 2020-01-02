@@ -1,3 +1,7 @@
+import json
+
+from django.forms import model_to_dict
+from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
 from django.contrib.auth import login, logout, authenticate
@@ -86,7 +90,50 @@ def register(request):
         form = UserInfoForm
         return render(request, 'register.html', {'form' : form})
 
+# 返回的參數args（商品名稱，公司，價格）
+# 根據編號返回信息
+def getGoodInfo(request):
+    try:
+        goodList = Goods.objects.all()
+        json_list = []
+        for good in goodList:
+            json_dict = model_to_dict(good)
+            json_list.append(json_dict)
+        goodList = json_list
 
+        good = goodList
+    except Exception as e:
+        print(e)
+        good = ["","",0]
+    finally:
+        jsonArr = json.dumps(good, ensure_ascii=False,cls=DateEncoder)
+        return HttpResponse(jsonArr, content_type="application/json") # 返回json数据
+
+def getSupInfo(request):
+    try:
+        goodList = Supplier.objects.all()
+        json_list = []
+        for good in goodList:
+            json_dict = model_to_dict(good)
+            json_list.append(json_dict)
+        goodList = json_list
+
+        good = goodList
+    except Exception as e:
+        print(e)
+        good = ["","",0]
+    finally:
+        jsonArr = json.dumps(good, ensure_ascii=False,cls=DateEncoder)
+        return HttpResponse(jsonArr, content_type="application/json") # 返回json数据
+
+class DateEncoder(json.JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, datetime):
+            return obj.strftime('%Y-%m-%d %H:%M:%S')
+        elif isinstance(obj, date):
+            return obj.strftime("%Y-%m-%d")
+        else:
+            return json.JSONEncoder.default(self, obj)
 
 def infochange(request):
     user = request.user
