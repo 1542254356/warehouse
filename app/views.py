@@ -112,9 +112,10 @@ def infochange(request):
                     user.userinfo.sex = form.cleaned_data['sex']
                     user.save()
                     messages.add_message (request, messages.INFO, "信息更改成功，请重新登录！")
+                    return redirect(to='login')
                 else:
                     messages.add_message(request, messages.ERROR, "两次密码不一致！")
-                return redirect(to= 'login')
+                    return redirect(to= 'infochange')
 
             else:
                 messages.add_message(request, messages.ERROR, "用户名不存在,请先注册！")

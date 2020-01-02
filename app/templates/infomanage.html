@@ -18,7 +18,8 @@
     <script>
         $(function () {
             {% for msg in messages %}
-                alert('{{ msg.message }}');
+                {#alert('{{ msg.message }}');#}
+                layer.msg('{{ msg.message }}');
             {% endfor %}
 
         })
@@ -29,7 +30,7 @@
 {% endif %}
 
 <!--body style="background: url({% static 'images/user_bg.jpg' %}); background-size: cover"-->
-<body style="background-color: cornflowerblue">
+<body class="layui-bg-gray">
 
 <ul class="layui-nav" lay-filter="">
     <li class="layui-nav-item {{ goods_inver }}">
@@ -67,8 +68,9 @@
             , element = layui.element;
 
         console.log(element.constructor())
-}();
+    }();
     //注意：导航 依赖 element 模块，否则无法进行功能性操作.
+
 
     function instore() {
 
@@ -88,6 +90,7 @@
     }
 
     function infochange() {
+        window.location.href = "/infochange"
         layer.open({
             type: 2,
             area: ['500px', '600px'],
@@ -142,7 +145,7 @@
                     border:rgba(255, 0, 0, 0);
                     position: absolute;
                     left: 10%;
-                    top:45%;
+                    top:60%;
                     transform: translate(-50%,-50%);">
         <div class="ui image">
 {#            <i class="ui massive user icon"></i>#}
@@ -164,11 +167,35 @@
         </div>
     </div>
 
-
+<div class="layui-carousel"  id="test1">
+  <div carousel-item style="object-fit:fill" >
+    <img src="/static/images/gg1.gif">
+    <img src="/static/images/gg2.gif">
+    <img src="/static/images/gg3.gif">
+  </div>
+</div>
 
     <!--主要功能区-->
     <div class="ui blue segment"
          style="background-color: ghostwhite; opacity: 0.7; width: 60%;margin-top: 2.5em;left: 30%">
+
+
+
+    <script src="/static/build/layui.js"></script>
+<script>
+layui.use('carousel', function(){
+  var carousel = layui.carousel;
+  //建造实例
+  carousel.render({
+    elem: '#test1'
+    ,width: '100%' //设置容器宽度
+    ,arrow: 'always' //始终显示箭头
+    //,anim: 'updown' //切换动画方式
+      ,autoplay:true
+      ,height:'200px'
+  });
+});
+</script>
         <!--供应商查询-->
         {% if name == 'supplier' %}
             <table class="ui blue table" lay-filter="demo">

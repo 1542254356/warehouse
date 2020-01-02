@@ -28,7 +28,8 @@
     <script>
         $(function () {
             {% for msg in messages %}
-                alert('{{ msg.message }}');
+                {#alert('{{ msg.message }}');#}
+                layer.msg('{{ msg.message }}');
             {% endfor %}
 
         })

@@ -9,6 +9,21 @@
     <script src="/static/layui/layui.all.js"></script>
     <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
 </head>
+{% if messages %}
+
+    <script>
+        $(function () {
+            {% for msg in messages %}
+                {#alert('{{ msg.message }}');#}
+                layer.msg('{{ msg.message }}');
+            {% endfor %}
+
+        })
+        // 标记是否有错误信息
+    alt = true
+
+    </script>
+{% endif %}
 <body style="background-color: cornflowerblue;">
     {% if messages %}
        <ul class=" ui red header messages" style="background-color: cornflowerblue; position: absolute;top: 60%;left: 42%;">
