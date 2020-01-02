@@ -213,6 +213,8 @@ def instore(request):
                 store.storage_amount = store.storage_amount + op_amount
                 if (store.storage_amount > store.storage_max):
                     raise Exception('超過最大庫存！装不下啦！入库失败！')
+                if (op_amount <0 ):
+                    raise Exception('入库不能为负数！入库失败！')
                 if (op_price > 10000):
                     raise Exception('价格太高了,是不是写错了?')
                 goods.goods_price = op_price
@@ -275,6 +277,8 @@ def outstore(request):
                 goods.goods_sprice = op_price
                 if (store.storage_amount < 0):
                     raise Exception("库存不足！出库失败！")
+                if (op_amount <0 ):
+                    raise Exception('出库不能为负数！出库失败！')
                 if (goods.goods_amount > 1000):
                     raise Exception("正在销售商品超过1000了！出库失败！")
                 if (op_price > 10000):

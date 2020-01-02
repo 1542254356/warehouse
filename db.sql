@@ -20,9 +20,9 @@ CREATE TABLE app_stockout
   out_date      DATETIME NOT NULL COMMENT '出库时间',
   out_amount    INTEGER  NOT NULL COMMENT '出库数量',
   out_ps        VARCHAR(500) COMMENT '备注',
-  goods_name_id INTEGER  NOT NULL  REFERENCES app_goods (goodsID) COMMENT '货物名称',
-  res_person_id INTEGER  NOT NULL REFERENCES app_userinfo (id) COMMENT '经办人姓名',
-  sup_name_id   INTEGER  NOT NULL REFERENCES app_supplier (id) COMMENT '供应商名称'
+  goods_name_id INTEGER  NOT NULL  REFERENCES app_goods (goodsID) COMMENT '货物',
+  res_person_id INTEGER  NOT NULL REFERENCES app_userinfo (id) COMMENT '经办人',
+  sup_name_id   INTEGER  NOT NULL REFERENCES app_supplier (id) COMMENT '供应商'
 ) COMMENT '出库表';
 
 CREATE INDEX app_stockout_goods_name_id
@@ -69,10 +69,9 @@ CREATE TABLE app_wavehousing
   in_price      REAL     NOT NULL COMMENT '入库单价',
   in_amount     INTEGER  NOT NULL COMMENT '入库数量',
   in_ps         VARCHAR(100) COMMENT '备注',
-  pay_status    bool     NOT NULL ,
-  goods_name_id INTEGER  NOT NULL REFERENCES app_goods (goodsID) COMMENT '货物名称',
-  res_person_id INTEGER  NOT NULL REFERENCES app_userinfo (id) COMMENT '经办人姓名',
-  sup_name_id   INTEGER  NOT NULL REFERENCES app_supplier (id) COMMENT '供应商名称'
+  goods_name_id INTEGER  NOT NULL REFERENCES app_goods (goodsID) COMMENT '货物',
+  res_person_id INTEGER  NOT NULL REFERENCES app_userinfo (id) COMMENT '经办人',
+  sup_name_id   INTEGER  NOT NULL REFERENCES app_supplier (id) COMMENT '供应商'
 )COMMENT '入库表';
 
 CREATE INDEX app_wavehousing_goods_name_id
