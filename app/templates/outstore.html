@@ -61,4 +61,40 @@
        </div>
    </div>
 </body>
+<script type="text/javascript">
+    goods = []
+    sups=[]
+    $.get("/getGoodInfo",function (ret) {
+        console.log(ret)
+        goods = ret
+    })
+
+    $.get("/getSupInfo",function (ret) {
+        console.log(ret)
+        sups = ret
+    })
+
+
+    $('#id_goodsID').bind('input propertychange', function () {
+        id = $('#id_goodsID').val()
+        if (id < 0){
+            alert('id不能小于0')
+            $('#id_goodsID').val('')
+            return
+        }
+        good = goods[id]
+        loadGoodInfo(good)
+    });
+
+    function loadGoodInfo(good) {
+        console.log(good)
+        $('#id_goods_name').val(good['goods_name'])
+        $('#id_op_price').val(good['goods_price'])
+        sup_id = good['goods_sup']
+        console.log(sup_id)
+        console.log(sups[sup_id])
+        $('#id_sup_name').val(sups[sup_id]['sup_name'])
+    }
+
+</script>
 </html>
